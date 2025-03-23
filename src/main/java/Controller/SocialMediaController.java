@@ -81,7 +81,7 @@ public class SocialMediaController {
         if (message != null) {
             ctx.json(message);
         } else {
-            ctx.status(200); // Still 200, but return empty
+            ctx.status(200);
         }
     }
 
@@ -90,9 +90,9 @@ public class SocialMediaController {
         Message deleted = messageService.deleteMessageById(messageId);
     
         if (deleted != null) {
-            ctx.json(deleted);  // return the deleted message
+            ctx.json(deleted);
         } else {
-            ctx.status(200);    // still 200, but with empty body
+            ctx.status(200);
         }
     }
     
@@ -105,7 +105,7 @@ public class SocialMediaController {
         if (result != null) {
             ctx.json(result);
         } else {
-            ctx.status(400);  // update failed (bad ID or invalid message_text)
+            ctx.status(400);
         }
     }    
 
