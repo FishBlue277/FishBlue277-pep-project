@@ -68,8 +68,7 @@ public class AccountDAO {
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("account_id");
-                String pwd = rs.getString("password");
-                return new Account(id, username, pwd);
+                return new Account(id, username, password);
             }
         } catch(SQLException e){
             System.out.println(e.getMessage());
