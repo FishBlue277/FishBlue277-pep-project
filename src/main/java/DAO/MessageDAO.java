@@ -9,30 +9,29 @@ import java.util.List;
 
 public class MessageDAO {
     public Message insertMessage(Message message) {
-        // Inserts a message into DB and returns the inserted Message (with generated ID)
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?, ?, ?);" ;
-            
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,message.getPosted_by());
-            preparedStatement.setString(2,message.getMessage_text());
-            preparedStatement.setLong(3,message.getTime_posted_epoch());
-
-            int affectedRows = preparedStatement.executeUpdate();
+            String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?, ?, ?);";
+    
+            PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, message.getPosted_by());
+            ps.setString(2, message.getMessage_text());
+            ps.setLong(3, message.getTime_posted_epoch());
+    
+            int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
-                ResultSet keys = preparedStatement.getGeneratedKeys();
+                ResultSet keys = ps.getGeneratedKeys();
                 if (keys.next()) {
                     int id = keys.getInt(1);
                     return new Message(id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
                 }
             }
-
-        } catch(SQLException e){
+    
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
-    }
+    }    
 
     public List<Message> getAllMessages() {
         // Returns a list of all messages from DB
