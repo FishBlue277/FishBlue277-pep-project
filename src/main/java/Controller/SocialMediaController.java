@@ -42,6 +42,7 @@ public class SocialMediaController {
     
         if (result != null) {
             ctx.json(result);
+            ctx.status(200);
         } else {
             ctx.status(400);
         }
